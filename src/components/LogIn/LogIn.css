@@ -1,0 +1,65 @@
+body{
+    margin: auto;
+}
+
+.login-wrapper {
+    margin: auto;
+    text-align: center;
+    width: 350px;
+    height: 400px;
+    background-color: #fff;
+    padding: 20px;
+    row-gap: 30px;
+    border-radius: 5px;
+    box-shadow: 1px 2px 5px #ccc;
+}
+
+.logo-img{
+    margin: auto;
+    width: 150px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.submitButton{
+    margin-top: 100px;
+    width: 100px;
+    border-radius: 5px;
+    height: 30px;
+    background-color: darkgray;
+    border: 0;
+    cursor: pointer;
+}
+
+.submitButton:hover, .submitButton:focus{
+    background-color: #f5fa00;
+}
+
+.login-text{
+    margin-top: 20px;
+}
+
+.label-style{
+    margin-top: 20px;
+}
+
+.username, .password{
+    border: 1px solid #BDBDBD;
+    border-radius: 30px;
+    width: 200px
+}
+
+.question{
+    margin-top: 20px;
+    color: darkgrey;
+    text-decoration: none;
+}
+
+.question:hover{
+    color: black;
+}
+
+.question:visited{
+    color: darkblue;
+}
+
