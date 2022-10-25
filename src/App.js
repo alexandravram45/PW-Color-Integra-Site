@@ -6,8 +6,7 @@ import Home from './pages';
 import CosulMeu from './pages/cosulMeu';
 import Favorite from './pages/favorite';
 import LogIn from './components/LogIn/LogIn';
-
-
+import SignUp from './components/Sign Up/SignUp';
 
 function App() {
   return (
@@ -18,6 +17,7 @@ function App() {
         <Route path='/logIn' element={<LogIn />} />
         <Route path='/cosulMeu' element={<CosulMeu />} />
         <Route path='/favorite' element={<Favorite />} />
+        <Route path='/signUp' element={<SignUp />} />
       </Routes>
     </Router>
   );
