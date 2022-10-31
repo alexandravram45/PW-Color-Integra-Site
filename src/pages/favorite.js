@@ -1,6 +1,9 @@
 import React from 'react'
 
-const Favorite = () => {
+const Favorite = ({ setShowSideMenu }) => {
+
+  setShowSideMenu(true)
+
   return (
     <div
       style={{

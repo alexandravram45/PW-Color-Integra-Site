@@ -1,60 +1,41 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './LogIn.css'
 import { TextField, Button } from '@mui/material'
-import { styled } from '@mui/material/styles';
-import { Formik, Form } from 'formik';
-import * as Yup from 'yup';
+import { 
+  signInWithEmailAndPassword,
+  onAuthStateChanged} from "firebase/auth"
+import { auth } from '../../firebase'
 
-const ColorButton = styled(Button)({
-  backgroundColor: '#e8e8e8 ',
-  marginTop: '50px',
-  borderRadius: '20px',
-  color: 'black',
+const LogIn = ({ setShowSideMenu }) => {
 
-  '&:hover': {
-    backgroundColor: '#dedede'
-  },
-  '&:active': {
-    backgroundColor: '#dedede'
-  }
+  setShowSideMenu(false)
+
+  const [logInEmail, setLogInEmail] = useState("");
+  const [logInPassword, setLogInPassword] = useState("");
   
-});
+  const [user, setUser] = useState({})
 
-const initialValues = {
-  name: "",
-  age: "",
-  email: "",
-  password: "",
-  confirmPassword: ""
-};
+  const login = async () => {
+    await signInWithEmailAndPassword(auth, logInEmail, logInPassword)
+    .then((userCredential) => {
+      // Signed in 
+      console.log(user)
+      // ...
+    })
+    .catch((error) => {
+      const errorMessage = error.message;
+      console.log(errorMessage)
+    });
+  }
 
-const SignupSchema = Yup.object().shape({
-  firstName: Yup.string()
-    .min(2, 'Too Short!')
-    .max(50, 'Too Long!')
-    .required('Required'),
-  lastName: Yup.string()
-    .min(2, 'Too Short!')
-    .max(50, 'Too Long!')
-    .required('Required'),
-  email: Yup.string().email('Invalid email').required('Required'),
-});
+  onAuthStateChanged(auth, (currentUser) => {
+    if (currentUser){
+      setUser(currentUser);
+    }
+  })
 
-const LogIn = () => {
   return (
-    <>
-    <Formik
-       initialValues={{
-         email: ''
-       }}
-       validationSchema={SignupSchema}
-       onSubmit={values => {
-         // same shape as initial values
-         console.log(values);
-       }}
-     >
-       {({ errors, touched }) => (
-        <Form>
+      <form>
       <div className='logo-img'>
         <a href='/'>
             <img width={'150px'} src={require('../../images/SiglaPNG.png')} alt='Color Integra' />
@@ -62,36 +43,44 @@ const LogIn = () => {
       </div>
       <div className='login-wrapper'>
         <h1 className='login-text'>Log In</h1>
-        <p className='label-title' >Adresa de email</p>
         <TextField  
               fullWidth
               id="textfield" 
               label="email" 
-              variant="outlined" 
+              variant="standard" 
               size='small'
-              color='secondary'
               name='email'
               type='email'
+              onChange={(event) => {
+                setLogInEmail(event.target.value)
+              }}
+             
         />
-        {errors.email && touched.email ? <div>{errors.email}</div> : null}
+        {/* {errors.email && touched.email ? <div>{errors.email}</div> : null} */}
           
-        <p className='label-title' >Parola</p>
         <TextField 
               fullWidth
               type="password"
               id="textfield" 
               label="Parola" 
-              variant="outlined" 
+              variant="standard" 
               size='small'
-              color='secondary'
+              onChange={(event) => {
+                setLogInPassword(event.target.value)
+              }}
+            
         />
         <p  className='question'><a href='../../signUp'>Don't have an account?</a></p>
-        <ColorButton fullWidth variant="contained" href='/'>Continua</ColorButton>
+        <Button 
+              id='submit-button' 
+              fullWidth 
+              variant="contained"
+              onClick={login}
+            >
+                Log In
+        </Button>
       </div>
-      </Form>
-       )}
-       </Formik>
-    </>
+      </form>
   )
 }
 

@@ -1,6 +1,9 @@
 import React from 'react'
 
-const CosulMeu = () => {
+const CosulMeu = ({ setShowSideMenu }) => {
+
+  setShowSideMenu(true)
+
   return (
     <div
       style={{
