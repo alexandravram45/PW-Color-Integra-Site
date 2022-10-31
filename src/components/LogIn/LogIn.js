@@ -6,9 +6,7 @@ import {
   onAuthStateChanged} from "firebase/auth"
 import { auth } from '../../firebase'
 
-const LogIn = ({ setShowSideMenu }) => {
-
-  setShowSideMenu(false)
+const LogIn = () => {
 
   const [logInEmail, setLogInEmail] = useState("");
   const [logInPassword, setLogInPassword] = useState("");

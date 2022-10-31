@@ -26,7 +26,7 @@ const ExpandMore = styled((props) => {
     }),
 }));
 
-const CardProduct = ({title,content}) => {
+const CardProduct = ({ title, content, image}) => {
     const [expanded, setExpanded] = React.useState(false);
     const titleFirstWords = title.split(" ").splice(0, 2);
     const avatar = titleFirstWords.length > 1 
@@ -51,8 +51,8 @@ const CardProduct = ({title,content}) => {
             <CardMedia
                 component="img"
                 height="194"
-                image="https://mui.com/static/images/cards/paella.jpg"
-                alt="Paella dish"
+                image={image}
+                alt=":)"
             />
             <CardContent>
                 <Typography variant="body2" color="text.secondary">

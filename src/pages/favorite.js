@@ -1,8 +1,6 @@
 import React from 'react'
 
-const Favorite = ({ setShowSideMenu }) => {
-
-  setShowSideMenu(true)
+const Favorite = () => {
 
   return (
     <div

@@ -39,9 +39,7 @@ const validationSchema = yup.object({
   });
 
 
-const SignUp = ({ setShowSideMenu }) => {
-
-  setShowSideMenu(false)
+const SignUp = () => {
 
   const [signUpEmail, setSignUpEmail] = useState("")
   const [signUpPassword, setSignUpPassword] = useState("")
