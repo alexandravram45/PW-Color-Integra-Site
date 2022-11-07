@@ -25,11 +25,6 @@ const addNewPost = () => {
         alert("Post title should not be empty!");
     }
 }
-  
-  const handleChange = (event) => {
-    setCategory(event.target.value);
-  };
-
 
   return (
     <div className="add-product-wrapper">
@@ -58,7 +53,9 @@ const addNewPost = () => {
                     id="demo-simple-select"
                     value={category}
                     label="Categorie"
-                    onChange={handleChange}
+                    onChange={(e) => {
+                      setCategory(e.target.value)
+                    }}
                   >
                   <MenuItem value={10}>Birotica</MenuItem>
                   <MenuItem value={20}>Papetarie</MenuItem>

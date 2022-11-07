@@ -37,7 +37,7 @@ const Navbar = () => {
               </SearchButton>
           </NavSearch>
           <NavMenu>
-              <NavLink to="/logIn" activeStyle>
+              <NavLink to="/contulMeu" activeStyle>
                   <BsFillPersonFill style={{marginRight: '5px'}}></BsFillPersonFill>
                   Contul Meu
               </NavLink>

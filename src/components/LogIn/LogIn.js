@@ -1,39 +1,32 @@
 import React, { useState } from 'react'
 import './LogIn.css'
 import { TextField, Button } from '@mui/material'
-import { 
-  signInWithEmailAndPassword,
-  onAuthStateChanged} from "firebase/auth"
-import { auth } from '../../firebase'
+import { useNavigate } from 'react-router-dom';
+import { UserAuth } from '../../context/AuthContext';
+
 
 const LogIn = () => {
 
-  const [logInEmail, setLogInEmail] = useState("");
-  const [logInPassword, setLogInPassword] = useState("");
-  
-  const [user, setUser] = useState({})
+  const [logInEmail, setLogInEmail] = useState('');
+  const [logInPassword, setLogInPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+  const { signIn } = UserAuth();
 
-  const login = async () => {
-    await signInWithEmailAndPassword(auth, logInEmail, logInPassword)
-    .then((userCredential) => {
-      // Signed in 
-      console.log(user)
-      // ...
-    })
-    .catch((error) => {
-      const errorMessage = error.message;
-      console.log(errorMessage)
-    });
-  }
-
-  onAuthStateChanged(auth, (currentUser) => {
-    if (currentUser){
-      setUser(currentUser);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('')
+    try {
+      await signIn(logInEmail, logInPassword)
+      navigate('/contulMeu')
+    } catch (e) {
+      setError(e.message)
+      console.log(e.message)
     }
-  })
+  };
 
   return (
-      <form>
+      <form onChange={handleSubmit}>
       <div className='logo-img'>
         <a href='/'>
             <img width={'150px'} src={require('../../images/SiglaPNG.png')} alt='Color Integra' />
@@ -54,8 +47,6 @@ const LogIn = () => {
               }}
              
         />
-        {/* {errors.email && touched.email ? <div>{errors.email}</div> : null} */}
-          
         <TextField 
               fullWidth
               type="password"
@@ -73,7 +64,6 @@ const LogIn = () => {
               id='submit-button' 
               fullWidth 
               variant="contained"
-              onClick={login}
             >
                 Log In
         </Button>

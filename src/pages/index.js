@@ -10,17 +10,17 @@ const Home = () => {
     {
       title: "Pix",
       content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ultrices lacinia vehicula. In vel feugiat nibh. Suspendisse faucibus, magna vitae fermentum pulvinar, elit sapien elementum turpis, at pretium leo enim quis purus.`,
-      image: '../images/pen.jpg'
+      image: "../images/pen.jpg"
     },
     {
       title: "Creion",
       content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ultrices lacinia vehicula. In vel feugiat nibh. Suspendisse faucibus, magna vitae fermentum pulvinar, elit sapien elementum turpis, at pretium leo enim quis purus.`,
-      image: '../../images/pencil.jpg'
+      image: '../images/pencil.jpg'
     },
     {
       title: "Hartie A4",
       content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ultrices lacinia vehicula. In vel feugiat nibh. Suspendisse faucibus, magna vitae fermentum pulvinar, elit sapien elementum turpis, at pretium leo enim quis purus.`,
-      image: '../../images/paper.jpg'
+      image: '../images/paper.jpg'
     },
   ];
   
