@@ -37,9 +37,9 @@ const Navbar = () => {
               </SearchButton>
           </NavSearch>
           <NavMenu>
-              <NavLink to="/logIn" activeStyle>
+              <NavLink to="/contulMeu" activeStyle>
                   <BsFillPersonFill style={{marginRight: '5px'}}></BsFillPersonFill>
-                  Log In
+                  Contul Meu
               </NavLink>
               <NavLink to="/favorite" activeStyle>
                   <BsSuitHeart style={{marginRight: '5px'}}></BsSuitHeart>

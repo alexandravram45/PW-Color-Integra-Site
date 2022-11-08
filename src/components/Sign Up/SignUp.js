@@ -1,46 +1,15 @@
-import React from 'react'
+import React, { useState} from 'react'
 import '../LogIn/LogIn.css'
-import { TextField, Button, FormHelperText } from '@mui/material'
-import { styled } from '@mui/material/styles';
-import { useFormik } from 'formik';
+import { TextField, Button } from '@mui/material'
 import * as yup from 'yup';
+import { useFormik } from 'formik';
+import { Link, useNavigate } from "react-router-dom";
+import { UserAuth } from '../../context/AuthContext';
 
-
-const ColorButton = styled(Button)({
-  backgroundColor: '#e8e8e8 ',
-  marginTop: '50px',
-  borderRadius: '20px',
-  color: 'black',
-
-  '&:hover': {
-    backgroundColor: '#dedede'
-  },
-  '&:active': {
-    backgroundColor: '#dedede'
-  }
-  
-});
-
-const initialValues = {
-    name: "",
-    age: "",
-    email: "",
-    password: "",
-    confirmPassword: ""
-  };
-
-const validationSchema = yup.object().shape({
-    name: yup
-      .string()
-      .required("A name is required")
-      .min(2, "Name must be at least 2 characters"),
-    secondName: yup
-      .string()
-      .required("A name is required")
-      .min(2, "Name must be at least 2 characters"),
+const validationSchema = yup.object({
     email: yup
-      .string()
-      .email()
+      .string('Enter your email')
+      .email('Enter a valid email')
       .required("Email is a required field"),
     password: yup
       .string()
@@ -58,22 +27,42 @@ const validationSchema = yup.object().shape({
       })
   });
 
-const SignUp = ({onSubmit}) => {
-    const formik = useFormik({
-        initialValues,
-        validationSchema,
-        onSubmit
-     });
+const SignUp = () => {
 
-    const nameProps = formik.getFieldProps("name");
-    const secondNameProps = formik.getFieldProps("secondName");
-    const emailProps = formik.getFieldProps("email");
-    const passwordProps = formik.getFieldProps("password");
-    const confirmPasswordProps = formik.getFieldProps("confirmPassword");
+  const [signUpEmail, setSignUpEmail] = useState("")
+  const [signUpPassword, setSignUpPassword] = useState("")
+  const [error, setError] = useState('')
+  const { createUser } = UserAuth();
+  const navigate = useNavigate()
+
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+      confirmPassword: ''
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    try {
+      await createUser(signUpEmail, signUpPassword);
+      navigate('/contulMeu')
+    } catch (e) {
+      setError(e.message);
+      console.log(e.message);
+    }
+  };
+
 
     return (
-    <>
-    <form onSubmit={formik.handleSubmit}>
+    <div>
+    <form onSubmit={formik.handleSubmit && handleSubmit}>
       <div className='logo-img'>
         <a href='/'>
             <img width={'150px'} src={require('../../images/SiglaPNG.png')} alt='Color Integra' />
@@ -81,82 +70,55 @@ const SignUp = ({onSubmit}) => {
       </div>
       <div className='signup-wrapper'>
         <h3 className='login-text'>Nu ai cont Color Integra?<br />Hai sa iti cream unul nou!</h3>
-        <p className='label-title' >Nume</p>
         <TextField  
               fullWidth
-              required
-              id="textfield" 
-              label="nume" 
-              variant="outlined" 
+              id="email" 
+              label="Adresa de email"
+              name='email' 
+              type='email'
+              variant="standard"
               size='small'
-              color='secondary'
-              {...nameProps}
+              onChange={(e) => {setSignUpEmail(e.target.value); formik.handleChange(e)}}
+              value={formik.values.email}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
         />
-        {formik.touched.name && formik.errors.name ? (
-            <div>{formik.errors.name}</div>
-        ) : null}
-        <p className='label-title' >Prenume</p>
-        <TextField  
-              fullWidth
-              required
-              id="textfield" 
-              label="prenume" 
-              variant="outlined" 
-              size='small'
-              color='secondary'
-              {...secondNameProps}
-        />
-        {formik.touched.secondName && formik.errors.secondName ? (
-            <div>{formik.errors.age}</div>
-        ) : null}
-        <p className='label-title' >Adresa de email</p>
-        <TextField  
-              fullWidth
-              required
-              id="textfield" 
-              label="email" 
-              variant="outlined" 
-              size='small'
-              color='secondary'
-              {...emailProps}
-        />
-         {formik.touched.email && formik.errors.email ? (
-            <div>{formik.errors.email}</div>
-         ) : null}
-        <p className='label-title' >Alege o parola sigura</p>
         <TextField 
               fullWidth
-              required
               type="password"
-              id="textfield" 
+              id="password" 
               label="Parola" 
-              variant="outlined" 
+              name='password'
+              variant="standard"
               size='small'
-              color='secondary'
-              {...passwordProps}
+              margin="normal"
+              onChange={(event) => {setSignUpPassword(event.target.value); formik.handleChange(event)}}
+              value={formik.values.password}
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password && formik.errors.password}
+
         />
-        {formik.touched.password && formik.errors.password ? (
-            <div>{formik.errors.password}</div>
-        ) : null}
-         <p className='label-title' >Confirma parola</p>
-        <TextField 
+         <TextField 
               fullWidth
-              required
               type="password"
-              id="textfield" 
-              label="Parola" 
-              variant="outlined" 
+              id="confirmPassword" 
+              label="Confirma Parola" 
+              name='confirmPassword'
+              variant="standard"
               size='small'
-              color='secondary'
-              {...confirmPasswordProps}
-        />
-         {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
-            <div>{formik.errors.confirmPassword}</div>
-         ) : null}
-        <ColorButton fullWidth id='submit-button' type='submit' variant="contained" href='/' disabled={!(formik.isValid && formik.dirty)}>Continua</ColorButton>
+              margin="normal"
+              value={formik.values.confirmPassword}
+              onChange={formik.handleChange}
+              error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
+              helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
+        /> 
+         <div>
+          Already have an account? <Link to="/logIn">Login</Link> now.
+        </div>
+        <Button fullWidth id='submit-button' type='submit' variant="contained" >Continua</Button>
       </div> 
     </form>
-    </>
+    </div>
 )}
 
 export default SignUp
