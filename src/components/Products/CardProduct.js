@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useRef} from 'react'
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -26,7 +27,7 @@ const ExpandMore = styled((props) => {
     }),
 }));
 
-const CardProduct = ({ title, content, image}) => {
+const CardProduct = ({ title, price, image, category, content}) => {
     const [expanded, setExpanded] = React.useState(false);
     const titleFirstWords = title.split(" ").splice(0, 2);
     const avatar = titleFirstWords.length > 1 
@@ -46,16 +47,17 @@ const CardProduct = ({ title, content, image}) => {
                     </Avatar>
                 }
                 title={title}
-                subheader="September 14, 2016"
+                subheader={price + "RON"}
             />
-            <CardMedia
+            <CardMedia 
                 component="img"
-                height="194"
+                height="194px"
                 image={image}
-                alt=":)"
+                alt=""
             />
             <CardContent>
                 <Typography variant="body2" color="text.secondary">
+                    {category}
                     {content}
                 </Typography>
             </CardContent>
