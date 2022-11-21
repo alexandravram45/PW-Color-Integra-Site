@@ -49,6 +49,7 @@ const addNewPost = () => {
 }
 
   return (
+    <form onSubmit={addNewPost} className="addProduct">
     <div className="add-product-wrapper">
       <h1>Create a new Product</h1>
 				<TextField
@@ -100,10 +101,11 @@ const addNewPost = () => {
                   rows={4}
           >
           </TextField>
-				<Button variant="contained" sx={{ mb: 5 }} onClick={addNewPost}>
+				<Button variant="contained" sx={{ mb: 5 }} type="submit">
 					Add Product
 				</Button>
     </div>
+    </form>
   )
 }
 

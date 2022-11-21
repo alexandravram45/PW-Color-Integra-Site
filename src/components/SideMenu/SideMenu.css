@@ -1,6 +1,7 @@
 #mainDiv{
     flex: 1;
     margin-left: 10px;
+    /* position: fixed; */
 }
 
 #productsLabel{
