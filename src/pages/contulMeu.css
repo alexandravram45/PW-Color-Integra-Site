@@ -44,3 +44,17 @@ body{
 #submit-button:active, #logout-button:active {
     background-color: #dedede
 }
+
+.basket-wrapper {
+    margin: auto;
+    text-align: center;
+    width: 600px;
+    height: auto;
+    background-color: #fff;
+    padding: 30px;
+    row-gap: 30px;
+    border-radius: 5px;
+    box-shadow: 1px 2px 5px #ccc;
+    display: flex;
+    flex-direction: column;
+}

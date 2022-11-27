@@ -24,7 +24,7 @@ function App() {
         <Route path='/favorite' element={<Favorite />} />
         <Route path='/adaugaProdus' element={<CreateProduct />} />
         <Route path='/contulMeu' element={<ContulMeu />} />
-        <Route path='/signUp' element={<SignUp/>
+        <Route path='/signUp' element={<SignUp />
         } />
       </Routes>
       </AuthContextProvider>

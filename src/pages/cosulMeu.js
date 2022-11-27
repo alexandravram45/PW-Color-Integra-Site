@@ -1,17 +1,19 @@
 import React from 'react'
+import './contulMeu.css'
 
 const CosulMeu = () => {
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '90vh'
-      }}
-    >
-      <h1>Cosul meu</h1>
+    <div>
+        <div className='logo-img'>
+        <a href='/'>
+            <img width={'150px'} src={require('../images/SiglaPNG.png')} alt='Color Integra' />
+        </a>
+      </div>
+      <div className='basket-wrapper'>
+        <h1>Cosul meu</h1>
+        
+      </div>
     </div>
   )
 }

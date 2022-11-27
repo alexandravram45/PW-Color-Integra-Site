@@ -13,8 +13,10 @@ import RedeemIcon from '@mui/icons-material/Redeem';
 import PrintIcon from '@mui/icons-material/Print';
 import AddIcon from '@mui/icons-material/Add';
 import './SideMenu.css'
+import { Link } from 'react-router-dom';
 
-const SideMenu = () => {
+const SideMenu = (props) => {
+
   return (
     <div id="mainDiv">
         <div id='productsLabel'>Produse</div>
@@ -58,7 +60,7 @@ const SideMenu = () => {
           <ListItemText>Party</ListItemText>
         </MenuItem>
         <Divider />
-        <MenuItem ><a href='/adaugaProdus'>
+        <MenuItem ><a href="/adaugaProdus" >
           <ListItemIcon>
             <AddIcon fontSize="small" />
           </ListItemIcon>

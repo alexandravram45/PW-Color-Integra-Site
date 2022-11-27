@@ -6,8 +6,11 @@ import { Select, Box, MenuItem, FormControl, InputLabel, OutlinedInput} from '@m
 import { set, ref } from "firebase/database"
 import { database } from "../../firebase"
 import { uid } from "uid"
+import { useNavigate } from "react-router-dom";
 
-const CreateProduct = ({data, setData}) => {
+const CreateProduct = () => {
+
+const [data, setData] = useState({})
 
 const [newProductName, setNewProductName] = useState("");
 const [newPrice, setNewPrice] = useState("");
@@ -15,33 +18,45 @@ const [newImage, setNewImage] = useState("");
 const [category, setCategory] = useState("");
 const [description, setDescription] = useState("");
 
-function writePostToDatabase() {
+const navigate = useNavigate()
+
+function writeProductToDatabase() {
   const postUid = uid()
-  set(ref(database, `/${postUid}`), {
-    newProductName,
-    newPrice,
-    newImage,
-    category,
-    description
+  set(ref(database, 'products/' + postUid), {
+    id: postUid,
+    title: newProductName,
+    price: newPrice,
+    image: newImage,
+    category: category,
+    content: description
   });
 }
 
-const addNewPost = () => {
-    console.log(data);
+const addNewProduct = () => {
     if (newProductName && newProductName.length > 0 && newPrice && newPrice.length > 0) {
-        setData([...data, {
+        setData({
             title: newProductName,
             price: newPrice,
             image: newImage,
             category: category,
             content: description
-        }]);
-        writePostToDatabase();
+        });  
+        console.log(data);
+
+        writeProductToDatabase();
         setNewProductName("");
         setNewPrice("");
         setNewImage("");
         setCategory("");
         setDescription("");
+
+        navigate('/', {state:
+           {title: newProductName,
+            price: newPrice,
+            image: newImage,
+            category: category,
+            content: description
+        }})
     }
     else {
         alert("Post title should not be empty!");
@@ -49,7 +64,7 @@ const addNewPost = () => {
 }
 
   return (
-    <form onSubmit={addNewPost} className="addProduct">
+    <form onSubmit={addNewProduct} className="addProduct">
     <div className="add-product-wrapper">
       <h1>Create a new Product</h1>
 				<TextField
@@ -83,12 +98,12 @@ const addNewPost = () => {
                     label="Categorie"
                     onChange={(e) => setCategory(e.target.value)}
                   >
-                  <MenuItem value={10}>Birotica</MenuItem>
-                  <MenuItem value={20}>Papetarie</MenuItem>
-                  <MenuItem value={30}>Craft</MenuItem>
-                  <MenuItem value={40}>Cartuse</MenuItem>
-                  <MenuItem value={50}>Jucarii</MenuItem>
-                  <MenuItem value={60}>Party</MenuItem>
+                  <MenuItem value={"Birotica"}>Birotica</MenuItem>
+                  <MenuItem value={"Papetarie"}>Papetarie</MenuItem>
+                  <MenuItem value={"Craft"}>Craft</MenuItem>
+                  <MenuItem value={"Cartuse"}>Cartuse</MenuItem>
+                  <MenuItem value={"Jucarii"}>Jucarii</MenuItem>
+                  <MenuItem value={"Party"}>Party</MenuItem>
                 </Select>
               </FormControl>
           </Box>
@@ -101,8 +116,8 @@ const addNewPost = () => {
                   rows={4}
           >
           </TextField>
-				<Button variant="contained" sx={{ mb: 5 }} type="submit">
-					Add Product
+				<Button type='submit' variant="contained" sx={{ mb: 5 }}>
+          Add product
 				</Button>
     </div>
     </form>

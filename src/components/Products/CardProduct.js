@@ -9,14 +9,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 const CardProduct = ({ title, price, image, category, content}) => {
-    const [expanded, setExpanded] = React.useState(false);
-    const titleFirstWords = title.split(" ").splice(0, 2);
-    const avatar = titleFirstWords.length > 1 
-        ? (titleFirstWords[0][0] + titleFirstWords[1][0]).toUpperCase() 
-        : titleFirstWords[0][0].toUpperCase();
-
    
-
   return (
     <Card sx={{ minWidth: 275, maxWidth: 275, margin: 1 }}>
             <CardMedia
