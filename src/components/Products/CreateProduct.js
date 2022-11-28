@@ -3,14 +3,11 @@ import './ProductsStyle.css'
 import * as React from 'react';
 import { useState, useEffect } from "react";
 import { Select, Box, MenuItem, FormControl, InputLabel, OutlinedInput} from '@mui/material'
-import { set, ref } from "firebase/database"
 import { database } from "../../firebase"
-import { uid } from "uid"
 import { useNavigate } from "react-router-dom";
+import { addDoc, collection } from "firebase/firestore";
 
 const CreateProduct = () => {
-
-const [data, setData] = useState({})
 
 const [newProductName, setNewProductName] = useState("");
 const [newPrice, setNewPrice] = useState("");
@@ -20,47 +17,28 @@ const [description, setDescription] = useState("");
 
 const navigate = useNavigate()
 
-function writeProductToDatabase() {
-  const postUid = uid()
-  set(ref(database, 'products/' + postUid), {
-    id: postUid,
-    title: newProductName,
-    price: newPrice,
-    image: newImage,
-    category: category,
-    content: description
-  });
-}
-
-const addNewProduct = () => {
-    if (newProductName && newProductName.length > 0 && newPrice && newPrice.length > 0) {
-        setData({
-            title: newProductName,
-            price: newPrice,
-            image: newImage,
-            category: category,
-            content: description
-        });  
-        console.log(data);
-
-        writeProductToDatabase();
-        setNewProductName("");
-        setNewPrice("");
-        setNewImage("");
-        setCategory("");
-        setDescription("");
-
-        navigate('/', {state:
-           {title: newProductName,
-            price: newPrice,
-            image: newImage,
-            category: category,
-            content: description
-        }})
+const addNewProduct = async (e) => {
+    e.preventDefault(e);
+    if (newProductName && newProductName.length <= 0 && newPrice && newPrice.length <= 0){
+      alert("Post title and price should not be empty!");
+      return
     }
-    else {
-        alert("Post title should not be empty!");
-    }
+    //write to db
+    await addDoc(collection(database, 'products'), {
+      title: newProductName,
+      price: newPrice,
+      image: newImage,
+      category: category,
+      content: description,
+    })
+
+    setNewProductName("");
+    setNewPrice("");
+    setNewImage("");
+    setCategory("");
+    setDescription("");
+
+    navigate('/')
 }
 
   return (

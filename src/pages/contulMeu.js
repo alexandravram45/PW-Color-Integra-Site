@@ -37,9 +37,8 @@ const ContulMeu = () => {
         <Button id='submit-button' type='submit' variant="contained" href='/logIn'>
             Log In
         </Button>
-        <Button id='logout-button' type='submit' variant="contained" onClick={handleLogout}>
+        <Button id='submit-button' type='submit' variant="contained" onClick={handleLogout}>
             Log out
-            {/* {user && user.email ? (document.getElementById("logout-button").style.display="block") : (document.getElementById("logout-button").style.display="none")} */}
         </Button>
       </div>
     </div>

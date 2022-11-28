@@ -6,6 +6,7 @@ import { useFormik } from 'formik';
 import { Link, useNavigate } from "react-router-dom";
 import { UserAuth } from '../../context/AuthContext';
 import { FirebaseError } from 'firebase/app';
+import { auth } from '../../firebase';
 
 const validationSchema = yup.object().shape({
     email: yup
@@ -41,6 +42,7 @@ const SignUp = () => {
     setError('');
     try {
       await createUser(signUpEmail, signUpPassword);
+      console.log(auth.currentUser)
       navigate('/contulMeu')
     } catch (e) {
       setError(e.message);

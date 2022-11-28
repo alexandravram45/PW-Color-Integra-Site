@@ -25,23 +25,17 @@ body{
 
 #submit-button{
     background-color: #e8e8e8 ;
+    border: 1px solid transparent;
     border-radius: 20px;
     color: black;
-    margin-top: 0px;
+    margin-top: -50px;
 }
 
-#logout-button{
-    background-color: #e8e8e8 ;
-    border-radius: 20px;
-    color: black;
-    margin-top: 0px;
-}
-
-#submit-button:hover, #logout-button:hover {
+#submit-button:hover{
     background-color: #dedede
 }
 
-#submit-button:active, #logout-button:active {
+#submit-button:active {
     background-color: #dedede
 }
 

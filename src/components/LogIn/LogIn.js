@@ -3,7 +3,7 @@ import './LogIn.css'
 import { TextField, Button } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
 import { UserAuth } from '../../context/AuthContext';
-
+import { auth } from '../../firebase';
 
 const LogIn = () => {
 
@@ -11,13 +11,14 @@ const LogIn = () => {
   const [logInPassword, setLogInPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const { signIn } = UserAuth();
+  const { user, signIn, logout } = UserAuth();
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    //e.preventDefault();
     setError('')
-    try {
-      await signIn(logInEmail, logInPassword)
+    try { console.log(auth.currentUser)
+      await signIn(logInEmail, logInPassword);
+     
       navigate('/contulMeu')
     } catch (e) {
       setError(e.message)
@@ -26,17 +27,18 @@ const LogIn = () => {
   };
 
   return (
-      <form onChange={handleSubmit}>
+       <form onSubmit={handleSubmit}>
       <div className='logo-img'>
         <a href='/'>
             <img width={'150px'} src={require('../../images/SiglaPNG.png')} alt='Color Integra' />
         </a>
       </div>
       <div className='login-wrapper'>
+        {auth.currentUser ? "Esti logat ca: " + `${user.email}` : <div>
         <h1 className='login-text'>Log In</h1>
         <TextField  
               fullWidth
-              id="textfield" 
+              id="email" 
               label="email" 
               variant="standard" 
               size='small'
@@ -50,7 +52,7 @@ const LogIn = () => {
         <TextField 
               fullWidth
               type="password"
-              id="textfield" 
+              id="password" 
               label="Parola" 
               variant="standard" 
               size='small'
@@ -64,9 +66,12 @@ const LogIn = () => {
               id='submit-button' 
               fullWidth 
               variant="contained"
+              type='submit'
             >
                 Log In
         </Button>
+        
+      </div>}
       </div>
       </form>
   )
