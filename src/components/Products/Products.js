@@ -8,7 +8,7 @@ import CardProduct from './CardProduct';
         postsRender.push(<div key={`postContainer${i / 4}`} style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
             {data
                 .slice(i, i + 4)
-                .map((val, index) => (<CardProduct title={val.title} price={val.price} image={val.image} category={val.category} content={val.content} key={`cardProduct${index}`} />))
+                .map((val, index) => (<CardProduct key={index} product={val} />))
             }
         </div>)
     }

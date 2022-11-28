@@ -1,32 +1,31 @@
-import { Divider } from "@mui/material";
+import { Card, Divider } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import Products from "../components/Products/Products";
 import SideMenu from "../components/SideMenu/SideMenu";
-import { useLocation } from "react-router-dom"
 import './Home.css'
 import CardProduct from "../components/Products/CardProduct";
-import database from "../firebase"
-import { get, onValue, ref } from "firebase/database";
-import { ref as sRef} from 'firebase/storage'
-import { uid } from "uid"
+import { database } from "../firebase"
+import { collection, onSnapshot, query } from "firebase/firestore";
+import Products from "../components/Products/Products";
 
 const Home = () => {
 
-  const location = useLocation()
-  console.log(location.state)
+  const [productsList, setProductsList] = useState([])
+  
+  useEffect(() => {
+    const q = query(collection(database, "products"))
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      let prodArr = []
+      querySnapshot.forEach((doc) => {
+        console.log(doc.data())
+        prodArr.push({...doc.data(), id: doc.id})
+      });
+      setProductsList(prodArr)
+    })
+    return () => unsubscribe()
+  }, []);
 
-
-  // useEffect(() => {
-  //   onValue(sRef(database, "products"), (snapshot) => {
-  //     setProductsList([]);
-  //     const data = snapshot.val();
-  //     if (data !== null) {
-  //       Object.values(data).map((prod) => {
-  //         setProductsList((oldArray) => [...oldArray, prod]);
-  //       });
-  //     }
-  //   });
-  // }, []);
+  console.log(productsList)
+  
 
   return (
     <>
@@ -37,10 +36,12 @@ const Home = () => {
           <br></br>
           <Divider />
           <br></br>
-          <h3>Produse noi</h3>
+          <h3>Produse noi {productsList.length < 1 ? null : (
+            `(${productsList.length})`
+          )}</h3>
+          
           <div className="products-wrapper">
-            
-            <CardProduct title={location.state.title} price={location.state.price} image={location.state.image} category={location.state.category} content={location.state.content}/>
+            <Products data={productsList} />
           </div>
         </div>
       </div>

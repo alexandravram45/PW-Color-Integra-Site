@@ -1,7 +1,10 @@
 import { Divider } from "@mui/material";
-import React, { useState } from "react";
+import { onValue } from "firebase/database";
+import React, { useEffect, useState } from "react";
 import Products from "../components/Products/Products";
 import SideMenu from "../components/SideMenu/SideMenu";
+import { auth, database } from "../firebase";
+import { ref } from 'firebase/database';
 import './Home.css'
 
 const Favorite = () => {
@@ -73,6 +76,27 @@ const initialData = [
   },
 ];
 
+const [favoritesList, setFavoritesList] = useState([])
+
+useEffect(() => {
+  try{
+    const userId = auth.currentUser.uid
+    console.log(userId)
+    onValue(ref(database, `favorites/${userId}`), (snapshot) => {
+      setFavoritesList([])
+      const data = snapshot.val()
+      if (data !== null){
+        Object.values(data).map((prod) => {
+          setFavoritesList((oldArray) => [...oldArray, prod]);
+        })
+      }
+    })
+  }catch(e){
+    console.log(e)
+  }
+  
+}, [])
+
   return (
     <>
     <div className="container">
@@ -83,7 +107,7 @@ const initialData = [
         <Divider />
         <br></br>
         <div className="products-wrapper">
-          <Products data={initialData} />
+          <Products data={favoritesList} />
         </div>
       </div>
     </div>
