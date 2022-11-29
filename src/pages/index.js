@@ -1,31 +1,44 @@
 import { Card, Divider } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import SideMenu from "../components/SideMenu/SideMenu";
 import './Home.css'
 import CardProduct from "../components/Products/CardProduct";
 import { database } from "../firebase"
 import { collection, onSnapshot, query } from "firebase/firestore";
 import Products from "../components/Products/Products";
+import { getStorage, ref, listAll } from "firebase/storage";
 
 const Home = () => {
 
   const [productsList, setProductsList] = useState([])
-  
+  const image = useRef();
+  const storage = getStorage();
+  const imageRef = ref(storage, 'images')
+
   useEffect(() => {
     const q = query(collection(database, "products"))
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       let prodArr = []
       querySnapshot.forEach((doc) => {
-        console.log(doc.data())
         prodArr.push({...doc.data(), id: doc.id})
+        listAll(imageRef).then((res) => {
+          res.items.filter((itemRef) => {
+            console.log(itemRef.name)
+            itemRef.name.includes(doc.id)
+            image.current = itemRef.name 
+            console.log(prodArr[prodArr.length - 1].image)
+            prodArr[prodArr.length - 1].image = image.current
+           
+            console.log(image.current)
+          })
+        }).catch((err) => {
+          console.log(err)
+        })
       });
       setProductsList(prodArr)
     })
     return () => unsubscribe()
   }, []);
-
-  console.log(productsList)
-  
 
   return (
     <>
