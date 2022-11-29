@@ -11,6 +11,7 @@ const Home = () => {
 
   const [productsList, setProductsList] = useState([])
   
+  //read from db
   useEffect(() => {
     const q = query(collection(database, "products"))
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
