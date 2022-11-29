@@ -11,9 +11,14 @@ import { getStorage, ref, listAll } from "firebase/storage";
 const Home = () => {
 
   const [productsList, setProductsList] = useState([])
+
   const image = useRef();
   const storage = getStorage();
   const imageRef = ref(storage, 'images')
+
+
+  
+  //read from db
 
   useEffect(() => {
     const q = query(collection(database, "products"))
