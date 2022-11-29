@@ -3,9 +3,11 @@ import './ProductsStyle.css'
 import * as React from 'react';
 import { useState, useEffect } from "react";
 import { Select, Box, MenuItem, FormControl, InputLabel, OutlinedInput} from '@mui/material'
-import { database } from "../../firebase"
+import { database, storage } from "../../firebase"
 import { useNavigate } from "react-router-dom";
 import { addDoc, collection } from "firebase/firestore";
+import { ref, uploadBytes } from "firebase/storage";
+import { v4 } from "uuid"
 
 const CreateProduct = () => {
 
@@ -14,6 +16,7 @@ const [newPrice, setNewPrice] = useState("");
 const [newImage, setNewImage] = useState("");
 const [category, setCategory] = useState("");
 const [description, setDescription] = useState("");
+let productId = ""
 
 const navigate = useNavigate()
 
@@ -23,22 +26,36 @@ const addNewProduct = async (e) => {
       alert("Post title and price should not be empty!");
       return
     }
+
     //write to db
-    await addDoc(collection(database, 'products'), {
+    const { id } = await addDoc(collection(database, 'products'), {
       title: newProductName,
       price: newPrice,
-      image: newImage,
+      image: "",
       category: category,
       content: description,
     })
+    console.log(id)
+    productId = id
+    
+    //upload image to storage
+    uploadImage()
 
     setNewProductName("");
     setNewPrice("");
-    setNewImage("");
+    setNewImage(null)
     setCategory("");
     setDescription("");
 
     navigate('/')
+}
+
+const uploadImage = () => {
+  if (newImage == null) return;
+  const imageRef = ref(storage, `images/${newImage.name + productId}`);
+  uploadBytes(imageRef, newImage).then(() => {
+    console.log(productId)
+  })
 }
 
   return (
@@ -63,9 +80,9 @@ const addNewProduct = async (e) => {
             type="file" 
             id="file-input" 
             name="ImageStyle"
-            value={newImage}
-					  onChange={(e) => setNewImage(e.target.value)}
-            style={{display: 'flex'}} />
+					  onChange={(e) => setNewImage(e.target.files[0])}
+            style={{display: 'flex'}} 
+          />
           <Box sx={{ minWidth: 150 }}>
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Categorie</InputLabel>
