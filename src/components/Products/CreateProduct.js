@@ -5,9 +5,10 @@ import { useState, useEffect } from "react";
 import { Select, Box, MenuItem, FormControl, InputLabel, OutlinedInput} from '@mui/material'
 import { database, storage } from "../../firebase"
 import { useNavigate } from "react-router-dom";
-import { addDoc, collection } from "firebase/firestore";
-import { ref, uploadBytes } from "firebase/storage";
+import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
+import { getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid"
+import { SettingsRemoteOutlined } from "@mui/icons-material";
 
 const CreateProduct = () => {
 
@@ -37,10 +38,9 @@ const addNewProduct = async (e) => {
     })
     console.log(id)
     productId = id
-    
-    //upload image to storage
-    uploadImage()
 
+    uploadImage()
+    
     setNewProductName("");
     setNewPrice("");
     setNewImage(null)
@@ -50,13 +50,26 @@ const addNewProduct = async (e) => {
     navigate('/')
 }
 
-const uploadImage = () => {
+const uploadImage = async () => {
   if (newImage == null) return;
   const imageRef = ref(storage, `images/${newImage.name + productId}`);
   uploadBytes(imageRef, newImage).then(() => {
-    console.log(productId)
+    listAll(ref(storage, 'images')).then((res) => {
+      res.items.forEach((itemRef) => {
+        console.log(itemRef.name)
+        if (itemRef.name.includes(productId)){
+          console.log(itemRef.name) //ajunge
+          getDownloadURL(itemRef).then(async (urll) => {
+            await updateDoc(doc(database, 'products', `${productId}`), {
+              image: urll
+            })
+          })
+        }
+      })
+    })
   })
 }
+
 
   return (
     <form onSubmit={addNewProduct} className="addProduct">

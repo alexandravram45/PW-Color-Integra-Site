@@ -13,47 +13,49 @@ import RedeemIcon from '@mui/icons-material/Redeem';
 import PrintIcon from '@mui/icons-material/Print';
 import AddIcon from '@mui/icons-material/Add';
 import './SideMenu.css'
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const SideMenu = (props) => {
+
+  const navigate = useNavigate()
 
   return (
     <div id="mainDiv">
         <div id='productsLabel'>Produse</div>
        <Paper sx={{ width: 200, maxWidth: '100%' }}>
       <MenuList>
-        <MenuItem>
+        <MenuItem >
           <ListItemIcon>
             <CreateIcon fontSize="small" />
           </ListItemIcon>
           <ListItemText>Birotica</ListItemText>
         </MenuItem>
-        <MenuItem>
+        <MenuItem >
           <ListItemIcon>
             <AttachFileIcon fontSize="small" />
           </ListItemIcon>
           <ListItemText>Papetarie</ListItemText>
         </MenuItem>
-        <MenuItem>
+        <MenuItem >
           <ListItemIcon>
             <ContentCutIcon fontSize="small" />
           </ListItemIcon>
           <ListItemText>Craft</ListItemText>
         </MenuItem>
-        <MenuItem>
+        <MenuItem >
           <ListItemIcon>
             <PrintIcon fontSize="small" />
           </ListItemIcon>
           <ListItemText>Cartuse</ListItemText>
         </MenuItem>
         <Divider />
-        <MenuItem>
+        <MenuItem >
           <ListItemIcon>
             <RedeemIcon fontSize="small" />
           </ListItemIcon>
           <ListItemText>Jucarii</ListItemText>
         </MenuItem>
-        <MenuItem>
+        <MenuItem >
           <ListItemIcon>
             <CelebrationIcon fontSize="small" />
           </ListItemIcon>

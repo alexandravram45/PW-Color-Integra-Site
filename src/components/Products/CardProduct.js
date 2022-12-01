@@ -7,10 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-
 import { getStorage, ref, listAll, getDownloadURL } from "firebase/storage";
-
-import { useState, useEffect } from "react";
 import { addDoc, collection, deleteDoc, doc } from "firebase/firestore";
 import { database } from "../../firebase"
 import { ToastContainer, toast } from 'react-toastify';
@@ -20,9 +17,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const CardProduct = ({ product }) => {
 
     const [fav, setFav] = useState('#757575')
-    const [isDisabled, setIsDisabled] = useState(false)
     const [clicks, setClicks] = useState(0)
-
 
     useEffect(() => {
         if (product.favorites){
@@ -60,29 +55,14 @@ const CardProduct = ({ product }) => {
             setFav("#757575")
             await deleteDoc(doc(database, "favorites", `${product.id}`))
         }
-        
     }
-
-    const url = useRef();
-    const storage = getStorage();
-    const imageRef = ref(storage, 'images')
-    
-    const getImage = () => {
-        listAll(imageRef).then((res) => {
-            const img = res.items.filter(itemRef => itemRef.name === product.image)
-            console.log(img[0])
-            getDownloadURL(img[0]).then((urll) => {
-                url.current = urll
-                //setUrl(urll) inainte
-        })
-    })}
 
   return (
     <Card sx={{ minWidth: 275, maxWidth: 275, margin: 1 }}>
-            {getImage}
             <CardMedia
             component='img'
-            image={url}
+            image={product.image}
+            height='200px'
             />
             <CardContent >
                 <Typography gutterBottom variant="h5" component="div">

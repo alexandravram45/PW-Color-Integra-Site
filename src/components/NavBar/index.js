@@ -20,7 +20,7 @@ const Navbar = () => {
           <NavLink to="/">
               <img src={require('../../images/SiglaPNG.png')} alt='Color Integra' width={'70px'}/>
           </NavLink>
-          <NavSearch>
+          {/* <NavSearch>
               <form action="/" method='get' className='form' style={{ border: '1px solid #BDBDBD', borderRadius: '30px', width: '300px'}}>
                   <input
                         type="text"
@@ -35,7 +35,7 @@ const Navbar = () => {
                   <BiSearchAlt />
                 </NavLink>
               </SearchButton>
-          </NavSearch>
+          </NavSearch> */}
           <NavMenu>
               <NavLink to="/contulMeu" activeStyle>
                   <BsFillPersonFill style={{marginRight: '5px'}}></BsFillPersonFill>
