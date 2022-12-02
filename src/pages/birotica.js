@@ -6,22 +6,18 @@ import { database } from "../firebase"
 import { collection, onSnapshot, query } from "firebase/firestore";
 import Products from "../components/Products/Products";
 
-const Home = () => {
+const Birotica = () => {
 
-  const [productsList, setProductsList] = useState([])
+const [productsList, setProductsList] = useState([])
 
-  //read from db
- 
-  useEffect(() => {
+useEffect(() => {
     const q = query(collection(database, "products"))
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       let prodArr = []
-      let i = 1
       querySnapshot.forEach((doc) => {
-        if (i <= 10){
-          prodArr.push({...doc.data(), id: doc.id})
+        if (doc.data().category === 'Birotica'){
+            prodArr.push({...doc.data(), id: doc.id})
         }
-        i++
       });
       setProductsList(prodArr)
     })
@@ -33,32 +29,20 @@ const Home = () => {
       <div className="container">
         <SideMenu />
         <div className="home-wrapper">
-          <h1>Bine ai venit!</h1>
+          <h1>Produse de birotica {
+            `(${productsList.length})`
+          }
+          </h1>
           <br></br>
           <Divider />
           <br></br>
-          <div className="hero-image">
-            <div className="hero-text">
-              Exploreaza produsele din gamele <b>Papetarie si Birotica</b> pentru un maxim de productivitate.
-              <br />
-              <br />
-              Inspiratia vine cand te astepti mai putin! Exploreaza gama <b>Craft</b> si da viata ideilor tale.
-              <br />
-              <br />
-              Beneficiaza de livrare rapida si retur gratuit.
-            </div>
-          </div>
-          <br />
-          <br />
-          <h3>Produse noi {
-            `(${productsList.length})`
-          }</h3>
           <div className="products-wrapper">
             <Products data={productsList} /> 
           </div>
         </div>
       </div>
     </>
-  );
+  )
 }
-export default Home;
+
+export default Birotica

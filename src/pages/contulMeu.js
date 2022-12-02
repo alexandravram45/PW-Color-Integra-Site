@@ -28,7 +28,7 @@ const ContulMeu = () => {
       </div>
       <div className='account-wrapper'>
         <h1>Contul Meu</h1>
-        <p>{user && user.email ? "Esti logat ca: " + `${user.email}` : "You are not logged in"}</p>
+        <p>{user && user.email ? "Esti logat ca: " + `${user.email}` : "Momentan nu esti logat"}</p>
         <h4>Nu ai cont Color Integra?</h4>
         <Button id='submit-button' type='submit' variant="contained" href='/signUp'>
             Sign Up
@@ -37,9 +37,10 @@ const ContulMeu = () => {
         <Button id='submit-button' type='submit' variant="contained" href='/logIn'>
             Log In
         </Button>
+        {user && user.email ?
         <Button id='submit-button' type='submit' variant="contained" onClick={handleLogout}>
             Log out
-        </Button>
+        </Button> : null }
       </div>
     </div>
   );

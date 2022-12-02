@@ -1,14 +1,12 @@
 import { TextField, Button } from "@mui/material";
 import './ProductsStyle.css'
 import * as React from 'react';
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Select, Box, MenuItem, FormControl, InputLabel, OutlinedInput} from '@mui/material'
 import { database, storage } from "../../firebase"
 import { useNavigate } from "react-router-dom";
 import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
-import { v4 } from "uuid"
-import { SettingsRemoteOutlined } from "@mui/icons-material";
 
 const CreateProduct = () => {
 
@@ -74,7 +72,7 @@ const uploadImage = async () => {
   return (
     <form onSubmit={addNewProduct} className="addProduct">
     <div className="add-product-wrapper">
-      <h1>Create a new Product</h1>
+      <h1>Adauga un produs nou</h1>
 				<TextField
 					id="productName"
 					label="Product name"
@@ -109,9 +107,11 @@ const uploadImage = async () => {
                   <MenuItem value={"Birotica"}>Birotica</MenuItem>
                   <MenuItem value={"Papetarie"}>Papetarie</MenuItem>
                   <MenuItem value={"Craft"}>Craft</MenuItem>
-                  <MenuItem value={"Cartuse"}>Cartuse</MenuItem>
                   <MenuItem value={"Jucarii"}>Jucarii</MenuItem>
-                  <MenuItem value={"Party"}>Party</MenuItem>
+                  <MenuItem value={"Party"}>Accesorii petrecere</MenuItem>
+                  <MenuItem value={"Caiete"}>Caiete</MenuItem>
+                  <MenuItem value={"IT"}>IT</MenuItem>
+                  <MenuItem value={"Genti"}>Genti si ghiozdane</MenuItem>
                 </Select>
               </FormControl>
           </Box>
@@ -125,7 +125,7 @@ const uploadImage = async () => {
           >
           </TextField>
 				<Button type='submit' variant="contained" sx={{ mb: 5 }}>
-          Add product
+          Adauga
 				</Button>
     </div>
     </form>
