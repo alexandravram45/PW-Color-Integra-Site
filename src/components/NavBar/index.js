@@ -1,18 +1,38 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     Nav,
     NavLink,
     NavMenu,
     NavSearch,
-    SearchButton
+    SearchButton, 
+    StyledBadge
   } from './NavBarElements';
 
-  import { BiSearchAlt } from 'react-icons/bi'
-  import { BsSuitHeart } from 'react-icons/bs'
-  import { SlBasket } from 'react-icons/sl'
+  import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+  import FavoriteIcon from '@mui/icons-material/Favorite';
+  import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
   import { BsFillPersonFill } from 'react-icons/bs'
 
+  import { database } from "../../firebase"
+
+  import { collection, getCountFromServer } from "firebase/firestore";
+
+
 const Navbar = () => {
+
+  const [favs, setFavs] = useState(0)
+
+    const favSize = async () => { 
+    const snapshot = await getCountFromServer(collection(database, "favorites")) 
+    console.log(snapshot.data().count)
+     setFavs(snapshot.data().count)
+    }
+
+    useEffect(() => {favSize()}, favs)
+
+
+  // const snapshotBasket =  async () => { await getCountFromServer(collection(database, "basket")) }
+  // const basketSize = snapshotBasket.data().count
 
   return (
     <>
@@ -20,33 +40,22 @@ const Navbar = () => {
           <NavLink to="/">
               <img src={require('../../images/SiglaPNG.png')} alt='Color Integra' width={'70px'}/>
           </NavLink>
-          {/* <NavSearch>
-              <form action="/" method='get' className='form' style={{ border: '1px solid #BDBDBD', borderRadius: '30px', width: '300px'}}>
-                  <input
-                        type="text"
-                        id="nav-search"
-                        placeholder='Cauta...'
-                        name='s'
-                        style={{backgroundColor: 'transparent', border: 0, width: '300px', ":focus": {border: '0'}}}
-                    />
-              </form>
-              <SearchButton >
-                <NavLink to="/" >
-                  <BiSearchAlt />
-                </NavLink>
-              </SearchButton>
-          </NavSearch> */}
+         
           <NavMenu>
               <NavLink to="/contulMeu" activeStyle>
-                  <BsFillPersonFill style={{marginRight: '5px'}}></BsFillPersonFill>
+                  <AccountCircleIcon style={{marginRight: '5px'}} />
                   Contul Meu
               </NavLink>
-              <NavLink to="/favorite" activeStyle>
-                  <BsSuitHeart style={{marginRight: '5px'}}></BsSuitHeart>
+              <NavLink to="/favorite"  activeStyle>
+                <StyledBadge badgeContent={favs} color="secondary">
+                  <FavoriteIcon style={{marginRight: '5px'}} />
+                </StyledBadge>
                   Favorite
               </NavLink>
               <NavLink to="/cosulMeu" activeStyle>
-                  <SlBasket style={{marginRight: '5px'}}></SlBasket>
+              <StyledBadge badgeContent={0} color="secondary">
+                <ShoppingCartIcon style={{marginRight: '7px'}} />
+              </StyledBadge>
                   Cosul meu
               </NavLink>
           </NavMenu>

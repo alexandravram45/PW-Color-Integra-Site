@@ -9,20 +9,24 @@ const LogIn = () => {
 
   const [logInEmail, setLogInEmail] = useState('');
   const [logInPassword, setLogInPassword] = useState('');
-  const [error, setError] = useState('');
+
   const navigate = useNavigate();
-  const { user, signIn, logout } = UserAuth();
+  const { user, signIn } = UserAuth();
 
   const handleSubmit = async (e) => {
-    //e.preventDefault();
-    setError('')
-    try { console.log(auth.currentUser)
+    e.preventDefault();
+    try { 
+      console.log(auth.currentUser)
       await signIn(logInEmail, logInPassword);
-     
       navigate('/contulMeu')
     } catch (e) {
-      setError(e.message)
       console.log(e.message)
+      if (e.code === 'auth/user-not-found'){
+        document.querySelector('.error').innerHTML = "Invalid email address!";
+      }
+      if (e.code === 'auth/wrong-password'){
+        document.querySelector('.error').innerHTML = "Wrong password!";
+      }
     }
   };
 
@@ -61,6 +65,7 @@ const LogIn = () => {
               }}
             
         />
+         <p className='error' style={{color: "red"}}></p> 
         <p  className='question'><a href='../../signUp'>Don't have an account?</a></p>
         <Button 
               id='submit-button' 

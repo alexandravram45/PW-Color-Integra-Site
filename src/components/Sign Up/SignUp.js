@@ -33,21 +33,21 @@ const SignUp = () => {
 
   const [signUpEmail, setSignUpEmail] = useState("")
   const [signUpPassword, setSignUpPassword] = useState("")
-  const [error, setError] = useState('')
   const { createUser } = UserAuth();
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     //e.preventDefault();
-    setError('');
     try {
       await createUser(signUpEmail, signUpPassword);
       console.log(auth.currentUser)
       navigate('/contulMeu')
     } catch (e) {
-      setError(e.message);
       console.log(e.message);
-      document.querySelector('.error').innerHTML = error;
+      if (e.code === "auth/email-already-in-use"){
+        document.querySelector('.error').innerHTML = "Email already in use";
+      }
+      
     }
   };
 
