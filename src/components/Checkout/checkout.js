@@ -3,9 +3,12 @@ import './checkout.css'
 import { TextField, Button } from '@mui/material'
 import { useNavigate, useLocation } from 'react-router-dom';
 import { UserAuth } from '../../context/AuthContext';
-import { auth } from '../../firebase';
+import { auth, database } from '../../firebase';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import { ToastContainer, toast } from 'react-toastify';
+import { addDoc, collection, onSnapshot, query, deleteDoc } from "firebase/firestore";
+
 
 const Checkout = () => {
 
@@ -19,18 +22,80 @@ const Checkout = () => {
   const [checkedCash, setCheckedCash] = useState(false);
   const [checkedCard, setCheckedCard] = useState(false);
 
+  const [confirmed, setConfirmed] = useState(true)
+
   const location = useLocation()
-  const { user, signIn } = UserAuth();
+  const navigate = useNavigate()
+
+  const getUser = () => {
+    if (auth.currentUser){
+     const userID = auth.currentUser.uid
+     console.log(userID)
+     return userID
+   }
+   else{
+     console.log("not logged")
+     return null
+   }
+ }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try { 
-      console.log(auth.currentUser)
-      
-    } catch (e) {
-      console.log(e.message)
-     
-    }
+    e.preventDefault(e);
+    const userID = getUser()
+    const basket = location.state.basketList
+    const sum = location.state.sum
+
+    //write to db
+    await addDoc(collection(database, `${userID}-orders`), {
+      name,
+      secondName,
+      tel, 
+      address,
+      city,
+      judet,
+      basket,
+      sum,
+      checkedCard,
+      checkedCash
+    })
+
+    setName("");
+    setSecondName("");
+    setTel("")
+    setAddress("");
+    setCity("");
+    setJudet("");
+    setCheckedCard(false);
+    setCheckedCash(false);
+
+   
+    toast.success('Comanda a fost plasata cu succes', {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+  });
+
+   setConfirmed(true)
+
+   //delete basket
+
+   const q = query(collection(database, `${userID}-basket`))
+    onSnapshot(q, (querySnapshot) => {
+    querySnapshot.forEach(async (doc) => {
+      await deleteDoc(doc(database, `${userID}-basket`, `${doc.id}`))
+    });
+  }) 
+  
+  setTimeout(() => {
+      navigate("/")
+    }, 3000);
+
+
   };
 
   return (
@@ -40,10 +105,12 @@ const Checkout = () => {
             <img width={'150px'} src={require('../../images/SiglaPNG.png')} alt='Color Integra' />
         </a>
       </div>
+     
       <div className='checkout-wrapper'>
         <h1 className='login-text'>Checkout</h1>
         <TextField  
               fullWidth
+              required
               id="name" 
               label="Nume" 
               variant="standard" 
@@ -58,6 +125,7 @@ const Checkout = () => {
         />
         <TextField  
               fullWidth
+              required
               id="secondName" 
               label="Prenume" 
               variant="standard" 
@@ -71,6 +139,7 @@ const Checkout = () => {
         />
         <TextField  
               fullWidth
+              required
               id="tel" 
               label="Telefon" 
               variant="standard" 
@@ -84,6 +153,7 @@ const Checkout = () => {
         />
         <TextField  
               fullWidth
+              required
               id="city" 
               label="Oras" 
               variant="standard" 
@@ -97,6 +167,7 @@ const Checkout = () => {
         />
         <TextField  
               fullWidth
+              required
               id="judet" 
               label="Judet" 
               variant="standard" 
@@ -110,6 +181,7 @@ const Checkout = () => {
         />
         <TextField  
               fullWidth
+              required
               id="address" 
               label="Adresa" 
               variant="standard" 
@@ -165,8 +237,8 @@ const Checkout = () => {
             >
                 Trimite comanda
         </Button>
-        
-      </div>
+        </div>
+      <ToastContainer />
       </form>
   )
 }

@@ -84,10 +84,9 @@ const CardProduct = ({ product }) => {
                 price: product.price,
                 image: product.image,
                 category: product.category,
-                content: product.content,
-                quantity: 1
+                content: product.content
             })
-                setFav('red')
+                
                 toast.success('Produsul a fost adaugat cu succes!', {
                     position: "top-center",
                     autoClose: 5000,

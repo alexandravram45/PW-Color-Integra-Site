@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Products from "../components/Products/Products";
 import { auth, database } from "../firebase";
 import './Home.css'
-import { collection, deleteDoc, doc, onSnapshot, query, updateDoc } from "firebase/firestore";
+import { collection, deleteDoc, doc, onSnapshot, query } from "firebase/firestore";
 import { UserAuth } from '../context/AuthContext';
 import { Button, Divider } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';

@@ -7,7 +7,6 @@ import { collection, onSnapshot, query } from "firebase/firestore";
 import Products from "../components/Products/Products";
 import Footer from "../components/Footer/Footer";
 
-
 const Produse = () => {
 
   const [productsList, setProductsList] = useState([])
