@@ -14,8 +14,13 @@ import PrintIcon from '@mui/icons-material/Print';
 import AddIcon from '@mui/icons-material/Add';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import './SideMenu.css'
+import { UserAuth } from '../../context/AuthContext';
+import NoteIcon from '@mui/icons-material/Note';
+import LaptopMacIcon from '@mui/icons-material/LaptopMac';
+import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 
 const SideMenu = (props) => {
+  const { user } = UserAuth()
 
   return (
     <div id="mainDiv">
@@ -49,6 +54,14 @@ const SideMenu = (props) => {
         </MenuItem>
         </a>
         <Divider />
+        <a href = '/produse/party' style={{textDecoration: "none", color: 'black'}}>
+        <MenuItem >
+          <ListItemIcon>
+            <CelebrationIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Accesorii petrecere</ListItemText>
+        </MenuItem>
+        </a>
         <a href = '/produse/jucarii' style={{textDecoration: "none", color: 'black'}}>
         <MenuItem >
           <ListItemIcon>
@@ -57,12 +70,28 @@ const SideMenu = (props) => {
           <ListItemText>Jucarii</ListItemText>
         </MenuItem>
         </a>
-        <a href = '/produse/party' style={{textDecoration: "none", color: 'black'}}>
+        <a href = '/produse/it' style={{textDecoration: "none", color: 'black'}}>
         <MenuItem >
           <ListItemIcon>
-            <CelebrationIcon fontSize="small" />
+            <LaptopMacIcon fontSize="small" />
           </ListItemIcon>
-          <ListItemText>Accesorii petrecere</ListItemText>
+          <ListItemText>IT</ListItemText>
+        </MenuItem>
+        </a>
+        <a href = '/produse/ghiozdane' style={{textDecoration: "none", color: 'black'}}>
+        <MenuItem >
+          <ListItemIcon>
+            <ShoppingBagIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Genti & ghiozdane</ListItemText>
+        </MenuItem>
+        </a>
+        <a href = '/produse/caiete' style={{textDecoration: "none", color: 'black'}}>
+        <MenuItem >
+          <ListItemIcon>
+            <NoteIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Caiete</ListItemText>
         </MenuItem>
         </a>
         <Divider />
@@ -76,12 +105,14 @@ const SideMenu = (props) => {
         </a>
         <Divider />
         <a href = '/adaugaProdus' style={{textDecoration: "none", color: 'black'}}>
+        { user && user.email === "colorintegra@yahoo.com" ?
         <MenuItem >
           <ListItemIcon>
             <AddIcon fontSize="small" />
           </ListItemIcon>
           <ListItemText >Adauga un produs</ListItemText>
-        </MenuItem>
+        </MenuItem> : null
+        }   
         </a>
       </MenuList>
     </Paper>

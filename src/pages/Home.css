@@ -1,3 +1,7 @@
+body{
+   height: 100vh;
+}
+
 .container{
     display: flex;
     width: 100%;
@@ -25,7 +29,7 @@
     flex-wrap: wrap;
 }
 
-.hero-image{
+.hero-image-home{
     background-image: url('../images/markere.jpg');
     height: 420px;
     background-position: center;
@@ -34,6 +38,16 @@
     position: relative;
     border-radius: 20px;
 }
+.hero-image-reduceri{
+    background-image: url('../images/sale.png');
+    height: 420px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    border-radius: 20px;
+}
+
 
 .hero-text{
     text-align: center;
@@ -44,3 +58,4 @@
     color: black;
     font-style: italic;
 }
+

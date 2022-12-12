@@ -10,12 +10,28 @@ import { collection, onSnapshot, query } from "firebase/firestore";
 
 const Favorite = () => {
 
+
 const [favoritesList, setFavoritesList] = useState([])
+
+const getUser = () => {
+   if (auth.currentUser){
+    const userID = auth.currentUser.uid
+    console.log(userID)
+    return userID
+  }
+  else{
+    console.log("not logged")
+    return null
+  }
+}
 
 //read from db
 useEffect(() => {
-  const q = query(collection(database, "favorites"))
-  const unsubscribe = onSnapshot(q, (querySnapshot) => {
+  const userID = getUser()
+  console.log(userID)
+  if (userID){
+    const q = query(collection(database, `${userID}-favorites`))
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
     let prodArr = []
     querySnapshot.forEach((doc) => {
       console.log(doc.data())
@@ -24,6 +40,8 @@ useEffect(() => {
     setFavoritesList(prodArr)
   })
   return () => unsubscribe()
+  }
+ 
 }, []);
 
 console.log(favoritesList)
@@ -37,9 +55,10 @@ console.log(favoritesList)
         <br></br>
         <Divider />
         <br></br>
+        {!(auth.currentUser) ? <p>Nu esti logat. Logheaza-te pentru a putea adauga produse favorite.</p> :
         <div className="products-wrapper">
           <Products data={favoritesList} />
-        </div>
+        </div> }
       </div>
     </div>
   </>

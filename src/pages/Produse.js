@@ -5,6 +5,8 @@ import './Home.css'
 import { database } from "../firebase"
 import { collection, onSnapshot, query } from "firebase/firestore";
 import Products from "../components/Products/Products";
+import Footer from "../components/Footer/Footer";
+
 
 const Produse = () => {
 
@@ -39,7 +41,8 @@ const Produse = () => {
             <Products data={productsList} /> 
           </div>
         </div>
-      </div>
+      </div> 
+      <Footer />
     </>
   );
 }

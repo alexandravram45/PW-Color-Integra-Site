@@ -1,19 +1,6 @@
 import styled from 'styled-components'
 import { NavLink as Link } from 'react-router-dom'
 
-import Badge from '@mui/material/Badge';
-import { styled as styled_mui } from '@mui/material/styles';
-
-export const StyledBadge = styled_mui(Badge)(({ theme }) => ({
-    '& .MuiBadge-badge': {
-      right: 6,
-      marginLeft: '5px',
-      border: `2px solid ${theme.palette.background.paper}`,
-      padding: '0 4px',
-    },
-  }));
-  
-
 export const Nav = styled.nav`
     background: #fff;
     box-shadow: 1px 2px 5px #ccc;
@@ -21,7 +8,10 @@ export const Nav = styled.nav`
     display: flex;
     justify-content: space-between;
     padding: 0.5rem calc((100vw - 1000px) / 2);
-    z-index: 10;
+    z-index: 10; 
+    width: 100%;
+    position: sticky;
+    top: 0px;
 `
 export const NavLink = styled(Link)`
     color: black;

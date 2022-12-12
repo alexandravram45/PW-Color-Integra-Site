@@ -21,7 +21,7 @@ const LogIn = () => {
       navigate('/contulMeu')
     } catch (e) {
       console.log(e.message)
-      if (e.code === 'auth/user-not-found'){
+      if (e.code === 'auth/user-not-found' || e.code ==='auth/invalid-email'){
         document.querySelector('.error').innerHTML = "Invalid email address!";
       }
       if (e.code === 'auth/wrong-password'){

@@ -2,16 +2,14 @@ import React, { useEffect, useState } from 'react'
 import {
     Nav,
     NavLink,
-    NavMenu,
-    NavSearch,
-    SearchButton, 
-    StyledBadge
+    NavMenu
   } from './NavBarElements';
 
   import AccountCircleIcon from '@mui/icons-material/AccountCircle';
   import FavoriteIcon from '@mui/icons-material/Favorite';
   import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-  import { BsFillPersonFill } from 'react-icons/bs'
+  import FacebookIcon from '@mui/icons-material/Facebook';
+  import InstagramIcon from '@mui/icons-material/Instagram';
 
   import { database } from "../../firebase"
 
@@ -47,18 +45,21 @@ const Navbar = () => {
                   Contul Meu
               </NavLink>
               <NavLink to="/favorite"  activeStyle>
-                <StyledBadge badgeContent={favs} color="secondary">
                   <FavoriteIcon style={{marginRight: '5px'}} />
-                </StyledBadge>
                   Favorite
               </NavLink>
               <NavLink to="/cosulMeu" activeStyle>
-              <StyledBadge badgeContent={0} color="secondary">
                 <ShoppingCartIcon style={{marginRight: '7px'}} />
-              </StyledBadge>
                   Cosul meu
               </NavLink>
+              <NavLink>
+                  <FacebookIcon style={{color: "blue"}}/>
+              </NavLink>
+              <NavLink>
+                  <InstagramIcon style={{color: "pink"}}/>
+              </NavLink>
           </NavMenu>
+          
       </Nav>
     </>
   );

@@ -20,6 +20,7 @@ import ContulMeu from './pages/contulMeu';
 import SignUp from './components/Sign Up/SignUp';
 import CreateProduct from './components/Products/CreateProduct'
 import { AuthContextProvider } from './context/AuthContext';
+import Checkout from './components/Checkout/checkout';
 
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
         <Route path='/produse/ghiozdane' element={<Ghiozdane />} />
         <Route path='/produse/signUp' element={<SignUp />} />
         <Route path='/produse/reduceri' element={<Reduceri />} />
+        <Route path='/checkout' element={<Checkout />} />
       </Routes>
       </AuthContextProvider>
     </Router>

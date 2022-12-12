@@ -5,6 +5,7 @@ import './Home.css'
 import { database } from "../firebase"
 import { collection, onSnapshot, query } from "firebase/firestore";
 import Products from "../components/Products/Products";
+import Footer from "../components/Footer/Footer";
 
 const Home = () => {
 
@@ -27,6 +28,7 @@ const Home = () => {
     })
      return () => unsubscribe()
   }, []);
+  
 
   return (
     <>
@@ -37,7 +39,7 @@ const Home = () => {
           <br></br>
           <Divider />
           <br></br>
-          <div className="hero-image">
+          <div className="hero-image-home">
             <div className="hero-text">
               Exploreaza produsele din gamele <b>Papetarie si Birotica</b> pentru un maxim de productivitate.
               <br />
@@ -57,7 +59,9 @@ const Home = () => {
             <Products data={productsList} /> 
           </div>
         </div>
+       
       </div>
+      <Footer />
     </>
   );
 }

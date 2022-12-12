@@ -30,14 +30,12 @@ const Reduceri = () => {
       <div className="container">
         <SideMenu />
         <div className="home-wrapper">
-          <h1>Produsele la pret redus{
-            `(${productsList.length})`
-          }</h1>
+          <h1>Christmas sale </h1>
           <br></br>
           <Divider />
           <br></br>
-          <p>Profita de ocazie si cumpara produsele noastre la pret redus!</p>
-          <br />
+          <div className="hero-image-reduceri"></div>
+          <br></br>
           <p>Beneficiaza de livrare rapida si retur gratuit</p>
           <div className="products-wrapper">
             <Products data={productsList} /> 

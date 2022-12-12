@@ -2,10 +2,10 @@ body{
     margin: auto;
 }
 
-.account-wrapper {
+.checkout-wrapper{
     margin: auto;
     text-align: center;
-    width: 350px;
+    width: 600px;
     height: auto;
     background-color: #fff;
     padding: 30px;
@@ -24,33 +24,36 @@ body{
     margin-bottom: 10px;
 }
 
-#submit-button{
-    background-color: #e8e8e8 ;
-    border: 1px solid transparent;
-    border-radius: 20px;
-    color: black;
-    margin-top: 10px;
+.submit-button{
+    position: relative;
+    bottom: 20px;
+    right: 20px;
+    width: 100px;
+    border-radius: 5px;
+    height: 30px;
+    background-color: darkgray;
+    border: 0;
+    cursor: pointer;
 }
 
-#submit-button:hover{
+
+.label-title{
+    margin-top: 20px;
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+#submit-button{
+    background-color: #e8e8e8 ;
+    margin-top: 50px;
+    border-radius: 20px;
+    color: black;
+}
+
+#submit-button:hover {
     background-color: #dedede
 }
 
 #submit-button:active {
     background-color: #dedede
-}
-
-.basket-wrapper {
-    margin: auto;
-    text-align: center;
-    width: 600px;
-    height: auto;
-    background-color: #fff;
-    padding: 30px;
-    row-gap: 30px;
-    border-radius: 5px;
-    box-shadow: 1px 2px 5px #ccc;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
 }
