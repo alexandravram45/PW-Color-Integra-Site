@@ -5,8 +5,10 @@ import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { Link, useNavigate } from "react-router-dom";
 import { UserAuth } from '../../context/AuthContext';
+import { FirebaseError } from 'firebase/app';
+import { auth } from '../../firebase';
 
-const validationSchema = yup.object({
+const validationSchema = yup.object().shape({
     email: yup
       .string('Enter your email')
       .email('Enter a valid email')
@@ -31,9 +33,23 @@ const SignUp = () => {
 
   const [signUpEmail, setSignUpEmail] = useState("")
   const [signUpPassword, setSignUpPassword] = useState("")
-  const [error, setError] = useState('')
   const { createUser } = UserAuth();
   const navigate = useNavigate()
+
+  const handleSubmit = async (e) => {
+    //e.preventDefault();
+    try {
+      await createUser(signUpEmail, signUpPassword);
+      console.log(auth.currentUser)
+      navigate('/contulMeu')
+    } catch (e) {
+      console.log(e.message);
+      if (e.code === "auth/email-already-in-use"){
+        document.querySelector('.error').innerHTML = "Email already in use";
+      }
+      
+    }
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -42,27 +58,13 @@ const SignUp = () => {
       confirmPassword: ''
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
-    },
+    onSubmit: handleSubmit
   });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
-    try {
-      await createUser(signUpEmail, signUpPassword);
-      navigate('/contulMeu')
-    } catch (e) {
-      setError(e.message);
-      console.log(e.message);
-    }
-  };
-
-
+ 
     return (
     <div>
-    <form onSubmit={formik.handleSubmit && handleSubmit}>
+    <form onSubmit={formik.handleSubmit}>
       <div className='logo-img'>
         <a href='/'>
             <img width={'150px'} src={require('../../images/SiglaPNG.png')} alt='Color Integra' />
@@ -83,6 +85,7 @@ const SignUp = () => {
               error={formik.touched.email && Boolean(formik.errors.email)}
               helperText={formik.touched.email && formik.errors.email}
         />
+        
         <TextField 
               fullWidth
               type="password"
@@ -111,7 +114,8 @@ const SignUp = () => {
               onChange={formik.handleChange}
               error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
               helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
-        /> 
+        />
+        <p className='error' style={{color: "red"}}></p> 
          <div>
           Already have an account? <Link to="/logIn">Login</Link> now.
         </div>

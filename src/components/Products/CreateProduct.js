@@ -3,48 +3,97 @@ import './ProductsStyle.css'
 import * as React from 'react';
 import { useState } from "react";
 import { Select, Box, MenuItem, FormControl, InputLabel, OutlinedInput} from '@mui/material'
+import { database, storage } from "../../firebase"
+import { useNavigate } from "react-router-dom";
+import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
+import { getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
 
+const CreateProduct = () => {
 
-const CreateProduct = ({data, setData}) => {
-
-const [newPostTitle, setNewPostTitle] = useState("");
-const [category, setCategory] = React.useState('');
+const [newProductName, setNewProductName] = useState("");
+const [newPrice, setNewPrice] = useState("");
 const [newImage, setNewImage] = useState("");
+const [category, setCategory] = useState("");
+const [description, setDescription] = useState("");
+let productId = ""
 
-const addNewPost = () => {
-    console.log(data);
-    if (newPostTitle && newPostTitle.length > 0) {
-        setData([...data, {
-            title: newPostTitle,
-            content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ultrices lacinia vehicula. In vel feugiat nibh. Suspendisse faucibus, magna vitae fermentum pulvinar, elit sapien elementum turpis, at pretium leo enim quis purus.`,
-            image: newImage
-        }]);
-        setNewPostTitle("");
+const navigate = useNavigate()
+
+const addNewProduct = async (e) => {
+    e.preventDefault(e);
+    if (newProductName && newProductName.length <= 0 && newPrice && newPrice.length <= 0){
+      alert("Post title and price should not be empty!");
+      return
     }
-    else {
-        alert("Post title should not be empty!");
-    }
+
+    //write to db
+    const { id } = await addDoc(collection(database, 'products'), {
+      title: newProductName,
+      price: newPrice,
+      image: "",
+      category: category,
+      content: description,
+    })
+    console.log(id)
+    productId = id
+
+    uploadImage()
+    
+    setNewProductName("");
+    setNewPrice("");
+    setNewImage(null)
+    setCategory("");
+    setDescription("");
+
+    navigate('/')
 }
 
+const uploadImage = async () => {
+  if (newImage == null) return;
+  const imageRef = ref(storage, `images/${newImage.name + productId}`);
+  uploadBytes(imageRef, newImage).then(() => {
+    listAll(ref(storage, 'images')).then((res) => {
+      res.items.forEach((itemRef) => {
+        console.log(itemRef.name)
+        if (itemRef.name.includes(productId)){
+          console.log(itemRef.name) //ajunge
+          getDownloadURL(itemRef).then(async (urll) => {
+            await updateDoc(doc(database, 'products', `${productId}`), {
+              image: urll
+            })
+          })
+        }
+      })
+    })
+  })
+}
+
+
   return (
+    <form onSubmit={addNewProduct} className="addProduct">
     <div className="add-product-wrapper">
-      <h1>Create a new Product</h1>
+      <h1>Adauga un produs nou</h1>
 				<TextField
-					id="new-post-field"
+					id="productName"
 					label="Product name"
 					variant="outlined"
-					value={newPostTitle}
-					onChange={(e) => setNewPostTitle(e.target.value)}
-                    style={{display: 'flex'}}
+					value={newProductName}
+					onChange={(e) => setNewProductName(e.target.value)}
+          style={{display: 'flex'}}
 				/>
-        <TextField label="Price"></TextField>
+        <TextField 
+          id="productPrice"
+          label="Price" 
+          value={newPrice}
+          onChange={(e) => setNewPrice(e.target.value)} 
+        />
           <OutlinedInput 
             type="file" 
             id="file-input" 
             name="ImageStyle"
-            value={newImage}
-					  onChange={(e) => setNewImage(e.target.value)}
-                    style={{display: 'flex'}} />
+					  onChange={(e) => setNewImage(e.target.files[0])}
+            style={{display: 'flex'}} 
+          />
           <Box sx={{ minWidth: 150 }}>
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Categorie</InputLabel>
@@ -53,30 +102,33 @@ const addNewPost = () => {
                     id="demo-simple-select"
                     value={category}
                     label="Categorie"
-                    onChange={(e) => {
-                      setCategory(e.target.value)
-                    }}
+                    onChange={(e) => setCategory(e.target.value)}
                   >
-                  <MenuItem value={10}>Birotica</MenuItem>
-                  <MenuItem value={20}>Papetarie</MenuItem>
-                  <MenuItem value={30}>Craft</MenuItem>
-                  <MenuItem value={40}>Cartuse</MenuItem>
-                  <MenuItem value={50}>Jucarii</MenuItem>
-                  <MenuItem value={60}>Party</MenuItem>
+                  <MenuItem value={"Birotica"}>Birotica</MenuItem>
+                  <MenuItem value={"Papetarie"}>Papetarie</MenuItem>
+                  <MenuItem value={"Craft"}>Craft</MenuItem>
+                  <MenuItem value={"Jucarii"}>Jucarii</MenuItem>
+                  <MenuItem value={"Party"}>Accesorii petrecere</MenuItem>
+                  <MenuItem value={"Caiete"}>Caiete</MenuItem>
+                  <MenuItem value={"IT"}>IT</MenuItem>
+                  <MenuItem value={"Genti"}>Genti si ghiozdane</MenuItem>
                 </Select>
               </FormControl>
           </Box>
           <TextField 
                   label="Description" 
                   id="outlined-multiline-static"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
                   multiline
                   rows={4}
           >
           </TextField>
-				<Button variant="contained" sx={{ mb: 5 }} onClick={addNewPost}>
-					Add Product
+				<Button type='submit' variant="contained" sx={{ mb: 5 }}>
+          Adauga
 				</Button>
     </div>
+    </form>
   )
 }
 

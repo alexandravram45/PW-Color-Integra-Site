@@ -1,14 +1,14 @@
 import React from 'react';
 import CardProduct from './CardProduct';
 
- const Products = ({ data }) => {
+ export default function Products({ data }) {
     const postsRender = [];
 
-    for (let i = 0; i < data.length; i += 3) {
-        postsRender.push(<div key={`postContainer${i / 3}`} style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
+    for (let i = 0; i < data.length; i += 4) {
+        postsRender.push(<div key={`postContainer${i / 4}`} style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
             {data
-                .slice(i, i + 3)
-                .map((val, index) => (<CardProduct content={val.content} title={val.title} image={val.image} key={`cardProduct${index}`} />))
+                .slice(i, i + 4)
+                .map((val, index) => (<CardProduct key={index} product={val} />))
             }
         </div>)
     }
@@ -19,5 +19,3 @@ import CardProduct from './CardProduct';
         </div>
     );
 }
-
-export default Products

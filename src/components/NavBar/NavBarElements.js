@@ -8,7 +8,10 @@ export const Nav = styled.nav`
     display: flex;
     justify-content: space-between;
     padding: 0.5rem calc((100vw - 1000px) / 2);
-    z-index: 10;
+    z-index: 10; 
+    width: 100%;
+    position: sticky;
+    top: 0px;
 `
 export const NavLink = styled(Link)`
     color: black;
@@ -51,8 +54,6 @@ export const SearchButton = styled.button`
     color: #ff00fe;
     border: 0;
 `;
-
-
 
 
 
