@@ -111,7 +111,7 @@ const uploadImage = async () => {
                   <MenuItem value={"Party"}>Accesorii petrecere</MenuItem>
                   <MenuItem value={"Caiete"}>Caiete</MenuItem>
                   <MenuItem value={"IT"}>IT</MenuItem>
-                  <MenuItem value={"Genti"}>Genti si ghiozdane</MenuItem>
+                  <MenuItem value={"Ghiozdane"}>Genti si ghiozdane</MenuItem>
                 </Select>
               </FormControl>
           </Box>

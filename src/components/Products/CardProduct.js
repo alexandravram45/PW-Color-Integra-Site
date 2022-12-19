@@ -13,12 +13,13 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { UserAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const CardProduct = ({ product }) => {
 
     const [fav, setFav] = useState('#757575')
-    const [clicks, setClicks] = useState(0)
     const { user } = UserAuth();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (product.favorites){
@@ -28,9 +29,8 @@ const CardProduct = ({ product }) => {
     
     const addToFavorites = async (e) => {
         e.preventDefault(e);
-        setClicks(clicks + 1)
 
-        if (fav === "#757575" && clicks === 1){
+        if (fav === "#757575"){
             //write to db
             if (auth.currentUser){
                 const userID = auth.currentUser.uid
@@ -70,6 +70,10 @@ const CardProduct = ({ product }) => {
         } else if (fav === "red") {
             setFav("#757575")
             await deleteDoc(doc(database, "favorites", `${product.id}`))
+            setTimeout(() => {
+                navigate("/favorite")
+              }, 3000);
+          
         }
     }
 
