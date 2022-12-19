@@ -19,7 +19,7 @@ const Home = () => {
       let prodArr = []
       let i = 1
       querySnapshot.forEach((doc) => {
-        if (i <= 10){
+        if (i <= 4){
           prodArr.push({...doc.data(), id: doc.id})
         }
         i++
@@ -58,8 +58,19 @@ const Home = () => {
           <div className="products-wrapper">
             <Products data={productsList} /> 
           </div>
+          <br></br>
+          
+          <h1>Locatia noastra</h1>
+          <Divider></Divider>
+          <br></br>
+          <div class="mapouter">
+          <div class="gmap_canvas">
+            <iframe width="707" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=Strada%20Republicii%2024,%20Brad,%20Hunedoara,%20Romania&t=&z=17&ie=UTF8&iwloc=&output=embed" frameborder="0" marginheight="0" marginwidth="0">
+            </iframe>
+          </div>
         </div>
-       
+        </div>
+        
       </div>
       <Footer />
     </>

@@ -39,11 +39,17 @@ const Checkout = () => {
    }
  }
 
+ function getRndInteger(min, max) {
+  return Math.floor(Math.random() * (max - min) ) + min;
+}
+
   const handleSubmit = async (e) => {
     e.preventDefault(e);
     const userID = getUser()
     const basket = location.state.basketList
     const sum = location.state.sum
+
+    const number = getRndInteger(10000, 99999)
 
     //write to db
     await addDoc(collection(database, `${userID}-orders`), {
@@ -56,7 +62,9 @@ const Checkout = () => {
       basket,
       sum,
       checkedCard,
-      checkedCash
+      checkedCash,
+      status: "In curs de procesare",
+      orderNumber: number
     })
 
     setName("");
